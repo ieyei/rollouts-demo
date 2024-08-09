@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  annotations:
+    kubernetes.io/ingress.class: {{ .Values.ingress.className }}
+    {{ range $key, $value := .Values.ingress.annotations }}
+    {{ $key }}: {{ $value }}
+    {{ end }}
+    alb.ingress.kubernetes.io/blue-service-name: {{ template "helm-guestbook.fullname" . }}
+    alb.ingress.kubernetes.io/green-service-name: {{ template "helm-guestbook.fullname" . }}-preview
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ template "helm-guestbook.fullname" . }}
+            port: 
+              number: 80
+
