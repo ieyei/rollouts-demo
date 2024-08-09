@@ -3,7 +3,7 @@ kind: Rollout
 metadata:
   name: rollouts-demo
 spec:
-  replicas: 1
+  replicas: 3  #update
   strategy:
     canary:
       canaryService: rollouts-demo-canary
@@ -14,7 +14,7 @@ spec:
           servicePort: 80
           rootService: rollouts-demo-root
       steps:
-      - setWeight: 5
+      - setWeight: 30 #update
       - pause: {}
   revisionHistoryLimit: 2
   selector:
@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: rollouts-demo
-        image: argoproj/rollouts-demo:blue
+        image: argoproj/rollouts-demo:yellow #update
         ports:
         - name: http
           containerPort: 8080
